@@ -20,6 +20,13 @@ return new class extends Migration
             $table->text('alamat'); 
             $table->date('tanggal_masuk'); 
             $table->enum('status', ['aktif', 'nonaktif'])->default  ('aktif'); 
+            
+            $table->unsignedBigInteger('departemen_id');
+            $table->foreign('departemen_id')->references('id')->on('departements')->onDelete('cascade');
+
+            $table->unsignedBigInteger('jabatan_id');
+            $table->foreign('jabatan_id')->references('id')->on('positions')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -27,8 +34,12 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+      public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::table('employees', function (Blueprint $table) {
+            $table->dropForeign(['departemen_id']);
+            $table->dropForeign(['jabatan_id']);
+            $table->dropColumn(['departemen_id', 'jabatan_id']);
+        });
     }
 };
