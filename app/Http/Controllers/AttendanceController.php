@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
@@ -7,17 +8,20 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $attendances = Attendance::with('employee')->latest()->paginate(10);
-        return view('pages.attendances.index', compact('attendances'));
+        return view('attendances.index', compact('attendances'));
     }
 
-    public function create() {
-        $employees = Employee::where('status', 'aktif')->get();
-        return view('pages.attendances.create', compact('employees'));
+    public function create()
+    {
+        $employees = Employee::all();
+        return view('attendances.create', compact('employees'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'karyawan_id' => 'required|exists:employees,id',
             'tanggal' => 'required|date',
@@ -28,14 +32,32 @@ class AttendanceController extends Controller
 
         Attendance::create($request->all());
 
-        return redirect()->route('attendances.index')->with('success', 'Absensi berhasil dicatat dan disimpan!');
+        return redirect()->route('attendances.index')->with('success', 'Data absensi berhasil ditambahkan.');
     }
 
-     public function show(Attendance $attendance)
+    public function edit(Attendance $attendance)
     {
-        // Memuat relasi 'employee' (dan relasi 'position' dari employee)
-        $attendance->load('employee.position');
+        $employees = Employee::all();
+        return view('attendances.edit', compact('attendance', 'employees'));
+    }
 
-        return view('pages.attendances.show', compact('attendance'));
+    public function update(Request $request, Attendance $attendance)
+    {
+        $request->validate([
+            'karyawan_id' => 'required|exists:employees,id',
+            'tanggal' => 'required|date',
+            'waktu_masuk' => 'nullable|date_format:H:i',
+            'waktu_keluar' => 'nullable|date_format:H:i',
+            'status_absensi' => 'required|in:hadir,izin,sakit,alpha',
+        ]);
+
+        $attendance->update($request->all());
+        return redirect()->route('attendances.index')->with('success', 'Data absensi berhasil diperbarui.');
+    }
+
+    public function destroy(Attendance $attendance)
+    {
+        $attendance->delete();
+        return redirect()->route('attendances.index')->with('success', 'Data absensi berhasil dihapus.');
     }
 }
