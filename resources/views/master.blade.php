@@ -20,16 +20,15 @@
     <header>
         <h1>@yield('page-title', 'App Pegawai')</h1>
 
-        <nav>
-            <ul style="list-style:none;padding:0;display:flex;gap:12px;">
-                <li><a href="{{ route('employees.index') }}">Employee</a></li>
-                <li><a href="{{ route('departements.index') }}">Department</a></li>
-                <li><a href="{{ route('attendances.index') }}">Attendance</a></li>
-                <li><a href="{{ route('positions.index') }}">Position</a></li>
-                <li><a href="{{ url('/report') }}">Report</a></li>
-                <li><a href="{{ url('/settings') }}">Settings</a></li>
-            </ul>
-        </nav>
+       <nav>
+    <ul style="list-style:none;padding:0;display:flex;gap:12px;">
+        <li><a href="{{ route('employees.index') }}">Employee</a></li>
+        <li><a href="{{ route('departements.index') }}">Department</a></li>
+        <li><a href="{{ route('attendances.index') }}">Attendance</a></li>
+        <li><a href="{{ route('positions.index') }}">Position</a></li>
+        <li><a href="{{ route('trainings.index') }}">Training</a></li>
+    </ul>
+</nav>
     </header>
 
     <main>

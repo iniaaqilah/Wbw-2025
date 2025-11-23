@@ -1,96 +1,65 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tambah Pegawai Baru</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-     <style>
-        body { padding-top: 20px; background-color: #d0b489; }
-        .card { max-width: 700px; margin: auto; background-color: #b7935d; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="card shadow-sm">
-        <div class="card-header bg-b7935d text-dark d-flex justify-content-between align-items-center">
-            <h1 class="h5 mb-0">Tambah Pegawai Baru</h1>
-            <a href="{{ route('employees.index') }}" class="btn btn-dark btn-sm">
-                <i class="fas fa-arrow-left me-1"></i> Kembali
-            </a>
-        </div>
-        <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <strong>Whoops!</strong> Ada masalah dengan input Anda.<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+@extends('master')
+@section('title', 'Tambah Pegawai Baru')
 
-            <form action="{{ route('employees.store') }}" method="POST">
-                @csrf
-                 <div class="row g-3">
-                    <div class="col-md-6 mb-3">
-                        <label for="nama_lengkap" class="form-label">Nama Lengkap:</label>
-                        <input type="text" name="nama_lengkap" style="background-color: #c3b6a3;" class="form-control" id="nama_lengkap" placeholder="Masukkan Nama Lengkap" value="{{ old('nama_lengkap') }}" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" name="email" style="background-color: #c3b6a3;" class="form-control" id="email" placeholder="Masukkan Email" value="{{ old('email') }}" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="nomor_telepon" class="form-label">Nomor Telepon:</label>
-                        <input type="text" name="nomor_telepon" style="background-color: #c3b6a3;" class="form-control" id="nomor_telepon" placeholder="Masukkan Nomor Telepon" value="{{ old('nomor_telepon') }}" required>
-                    </div>
-                     <div class="col-md-6 mb-3">
-                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir:</label>
-                        <input type="date" name="tanggal_lahir" style="background-color: #c3b6a3;" class="form-control" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label for="alamat" class="form-label">Alamat:</label>
-                        <textarea class="form-control" style="height:100px; background-color: #c3b6a3; " name="alamat" id="alamat" placeholder="Masukkan Alamat" required>{{ old('alamat') }}</textarea>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="tanggal_masuk" class="form-label">Tanggal Masuk:</label>
-                        <input type="date" name="tanggal_masuk" style="background-color: #c3b6a3;" class="form-control" id="tanggal_masuk" value="{{ old('tanggal_masuk') }}" required>
-                    </div>
-                     <div class="col-md-6 mb-3">
-                        <label for="status" class="form-label">Status:</label>
-                        <select name="status" style="background-color: #c3b6a3;" id="status" class="form-select" required>
-                            <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="nonaktif" {{ old('status') == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="departemen_id" class="form-label">Departemen:</label>
-                        <select name="departemen_id" style="background-color: #c3b6a3;" id="departemen_id" class="form-select" required>
-                             <option value="" disabled selected>Pilih Departemen</option>
-                            @foreach ($departements as $dept)
-                                <option value="{{ $dept->id }}" {{ old('departemen_id') == $dept->id ? 'selected' : '' }}>{{ $dept->nama_departemen }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="jabatan_id" class="form-label">Jabatan:</label>
-                        <select name="jabatan_id" style="background-color: #c3b6a3;"id="jabatan_id" class="form-select" required>
-                            <option value="" disabled selected>Pilih Jabatan</option>
-                            @foreach ($positions as $pos)
-                                <option value="{{ $pos->id }}" {{ old('jabatan_id') == $pos->id ? 'selected' : '' }}>{{ $pos->nama_jabatan }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary bg-dark text-light">
-                            <i class="fas fa-save me-1"></i> Simpan
-                        </button>
-                    </div>
-                </div>
-            </form>
+@section('content')
+<div style="background-color:#d7ccc8;padding:20px;border-radius:10px; max-width: 600px; margin: auto;">
+    <h2>Tambah Pegawai Baru</h2>
+    
+    @if ($errors->any())
+        <div class="alert error">
+            <strong>Whoops!</strong> Ada masalah dengan input Anda.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-    </div>
+    @endif
+
+    <form action="{{ route('employees.store') }}" method="POST">
+        @csrf
+        <label>Nama Lengkap:</label>
+        <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}" required><br><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" value="{{ old('email') }}" required><br><br>
+
+        <label>Nomor Telepon:</label>
+        <input type="text" name="nomor_telepon" value="{{ old('nomor_telepon') }}" required><br><br>
+
+        <label>Tanggal Lahir:</label>
+        <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required><br><br>
+
+        <label>Alamat:</label>
+        <textarea name="alamat" rows="4" required>{{ old('alamat') }}</textarea><br><br>
+
+        <label>Tanggal Masuk:</label>
+        <input type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk') }}" required><br><br>
+
+        <label>Status:</label>
+        <select name="status" required>
+            <option value="aktif" {{ old('status') == 'aktif' ? 'selected' : '' }}>Aktif</option>
+            <option value="nonaktif" {{ old('status') == 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+        </select><br><br>
+
+        <label>Departemen:</label>
+        <select name="departemen_id" required>
+            <option value="" disabled selected>Pilih Departemen</option>
+            @foreach ($departements as $dept)
+                <option value="{{ $dept->id }}" {{ old('departemen_id') == $dept->id ? 'selected' : '' }}>{{ $dept->nama_departemen }}</option>
+            @endforeach
+        </select><br><br>
+
+        <label>Jabatan:</label>
+        <select name="jabatan_id" required>
+            <option value="" disabled selected>Pilih Jabatan</option>
+            @foreach ($positions as $pos)
+                <option value="{{ $pos->id }}" {{ old('jabatan_id') == $pos->id ? 'selected' : '' }}>{{ $pos->nama_jabatan }}</option>
+            @endforeach
+        </select><br><br>
+
+        <button type="submit" style="background-color:#3e2723;color:white;padding:10px 16px;border:none;border-radius:8px;">Simpan</button>
+        <a href="{{ route('employees.index') }}" style="background-color:#8d6e63;color:white;padding:10px 16px;border-radius:8px;text-decoration:none;">Kembali</a>
+    </form>
 </div>
-</body>
-</html>
+@endsection

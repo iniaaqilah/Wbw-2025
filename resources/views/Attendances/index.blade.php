@@ -2,7 +2,7 @@
 @section('title', 'Daftar Absensi')
 
 @section('content')
-<div class="container mt-5" style="background-color:#d8c096; padding:20px; border-radius:12px;">
+<div class="container mt-5" style="background-color:#f6d8bd; padding:20px; border-radius:12px;">
     <h1 style="margin-bottom:20px;">Daftar Absensi Pegawai</h1>
     <a href="{{ route('attendances.create') }}" style="background-color:#3e2723;color:white;padding:10px 16px;text-decoration:none;border-radius:8px;">+ Tambah Data Absensi</a>
     <br><br>
@@ -32,7 +32,7 @@
                         <form action="{{ route('attendances.destroy', $attendance->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Hapus data ini?')" style="background-color:#6d4c41;color:white;padding:5px 10px;border:none;border-radius:6px;">Hapus</button>
+                            <button type="submit" onclick="return confirm('Hapus data ini?')" style="background-color:#dc3545;color:white;padding:5px 10px;border:none;border-radius:6px;">Hapus</button>
                         </form>
                     </td>
                 </tr>
